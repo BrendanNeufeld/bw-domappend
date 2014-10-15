@@ -1,0 +1,34 @@
+{
+  "name": "bw-domappend",
+  "version": "1.0.0",
+  "description": "This function will return a promise which will append a new element into another element",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "promise": "^6.0.0",
+    "select-dom": "^0.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MikkoH/bw-domappend.git"
+  },
+  "keywords": [
+    "big",
+    "wheel",
+    "dom",
+    "append",
+    "promise"
+  ],
+  "author": "Mikko Haapoja <me@mikkoh.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MikkoH/bw-domappend/issues"
+  },
+  "homepage": "https://github.com/MikkoH/bw-domappend"
+}
