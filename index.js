@@ -16,7 +16,13 @@ module.exports = function( domSelector ) {
 
 				if( typeof data == 'string' ) {
 
-					parentEl.innerHTML = parentEl.innerHTML + data;
+					var dummy = document.createElement( 'div' );
+					dummy.innerHTML = data;
+					
+					for( var i = 0, len = dummy.childNodes.length; i < len; i++ ) {
+
+						parentEl.appendChild( dummy.childNodes[ i ] );
+					}
 				} else {
 
 					parentEl.appendChild( data );	
