@@ -1,35 +1,49 @@
 var promise = require( 'promise' ),
 	select = require( 'select-dom' );
 
-module.exports = function( domSelector ) {
-
-	var parentEl = select( domSelector || 'body' );
+module.exports = function( parentEl ) {
 
 	return function( data ) {
 
+		if( !data )
+			data = {};
+
 		return new promise( function( onOk, onErr ) {
 
-			if( !parentEl ) {
+			if( data.dataDOM ) {
 
-				onErr( new Error( 'No html element to write into' ) );	
-			} else {
+				if( !data.parentDOM && !parentEl )
+					data.parentDOM = document.body;
+				else if( data.parentDOM ) {
 
-				if( typeof data == 'string' ) {
+					if( typeof data.parentDOM == 'string' )
+						data.parentDOM = select( data.parentDOM );
+				} else if( parentEl ) {
+
+					if( typeof parentEl == 'string' )
+						data.parentDOM = select( parentEl );
+					else
+						data.parentDOM = parentEl;
+				}
+					
+				if( typeof data.dataDOM == 'string' ) {
 
 					var dummy = document.createElement( 'div' );
-					dummy.innerHTML = data;
+					dummy.innerHTML = data.dataDOM;
 					
 					for( var i = 0, len = dummy.childNodes.length; i < len; i++ ) {
 
-						parentEl.appendChild( dummy.childNodes[ i ] );
+						data.parentDOM.appendChild( dummy.childNodes[ i ] );
 					}
 				} else {
 
-					parentEl.appendChild( data );	
+					data.parentDOM.appendChild( data.dataDOM );	
 				}
 				
-				
-				onOk( parentEl );
+				onOk( data );
+			} else {
+
+				onErr( new Error( 'nothing to add to dom. dataDOM not defined in data being passed' ) ); 
 			}
 		});
 	};
