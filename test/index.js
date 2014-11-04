@@ -5,8 +5,7 @@ var domappend = require( '../' ),
 
 var nEl = document.createElement( 'div' ),	
 	nEl2 = document.createElement( 'div' ),
-	nEl3 = document.createElement( 'div' ),
-	nEl4 = document.createElement( 'div' );
+	nEl3 = document.createElement( 'div' );
 
 nEl.id = 'first';
 nEl.innerText = 'Hello burl!';
@@ -17,21 +16,20 @@ nEl.innerText = 'Hello world!';
 nEl3.id = 'third';
 nEl3.innerText = 'Hello whirl!';
 
-nEl4.id = 'fourth';
-nEl4.innerText = 'Hello girl!';
-
 test( 'adding dom elements', function( t ) {
 
-	t.plan( 4 );
+	t.plan( 3 );
 
-	domappend()( { dataDOM: nEl } )
+	promise.resolve( { dataDOM: nEl } )
+	.then( domappend )
 	.then( function() {
 
 		t.ok( nEl == find( '#first' ), 'appended the first element' );
 	})
 	.then( function() {
 
-		domappend( '#first' )( { dataDOM: nEl2 } )
+		promise.resolve( { parentDOM: '#first', dataDOM: nEl2 } )
+		.then( domappend )
 		.then( function() {
 
 			t.ok( nEl2 == find( '#second' ), 'appended the second element to first using string selector' );
@@ -44,7 +42,8 @@ test( 'adding dom elements', function( t ) {
 	})
 	.then( function() {
 
-		domappend( find( '#first' ) )( { dataDOM: nEl3 } )
+		promise.resolve( { parentDOM: find( '#first' ), dataDOM: nEl3 } )
+		.then( domappend )
 		.then( function() {
 
 			t.ok( nEl3 == find( '#third' ), 'appended the third element to first using dom element' );
@@ -52,20 +51,6 @@ test( 'adding dom elements', function( t ) {
 		.catch( function( e ) {
 
 			t.error( e, 'third promise failed' );
-			t.end();
-		});
-	})
-	.then( function() {
-
-		domappend()( {  parentDOM: find( '#first' ),
-						dataDOM: nEl4 } )
-		.then( function() {
-
-			t.ok( nEl4 == find( '#fourth' ), 'appended the third element to first using data parentDOM' );
-		})
-		.catch( function( e ) {
-
-			t.error( e, 'fourth promise failed' );
 			t.end();
 		});
 	})
