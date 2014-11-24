@@ -15,7 +15,20 @@ module.exports = function( data ) {
 			else if( data.parentDOM ) {
 
 				if( typeof data.parentDOM == 'string' )
-					data.parentDOM = select( data.parentDOM );
+					var parentDOM = select( data.parentDOM );
+
+				if(!parentDOM){
+
+					console.warn('parentDOM does not exist, so document.body will be used instead');
+
+					parentDOM = document.createElement('div');
+					parentDOM.setAttribute("id", data.parentDOM.replace('#',''));
+					document.body.appendChild(parentDOM);
+				}
+
+				data.parentDOM = parentDOM;
+
+
 			}
 				
 			if( typeof data.dataDOM == 'string' ) {
