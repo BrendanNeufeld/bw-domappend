@@ -14,20 +14,11 @@ module.exports = function( data ) {
 				data.parentDOM = document.body;
 			else if( data.parentDOM ) {
 
-				if( typeof data.parentDOM == 'string' ){
-					var parentDOM = select( data.parentDOM );
+				if( typeof data.parentDOM == 'string' )
+					data.parentDOM = select( data.parentDOM );
 
-					if(!parentDOM){
-
-						console.warn('parentDOM does not exist, so it will be created and appended to body');
-
-						parentDOM = document.createElement('div');
-						parentDOM.setAttribute("id", data.parentDOM.replace('#',''));
-						document.body.appendChild(parentDOM);
-					}
-
-					data.parentDOM = parentDOM;
-				}
+				if( !data.parentDOM )
+					data.parentDOM = document.body;
 			}
 				
 			if( typeof data.dataDOM == 'string' ) {
